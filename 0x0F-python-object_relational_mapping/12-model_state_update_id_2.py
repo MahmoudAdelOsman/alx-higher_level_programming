@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Start link class to table in database
+""" prints the State object with the name passed as argument from the database
 """
 import sys
 from model_state import Base, State
@@ -13,5 +13,6 @@ if __name__ == "__main__":
     Base.metadata.create_all(engine)
     X = sessionmaker(bind=engine)
     x = X()
-    for instance in x.query(State).order_by(State.id):
-        print(instance.id, instance.name, sep=": ")
+    a = x.query(State).filter_by(id=2).first()
+    a.name = 'New Mexico'
+    x.commit()

@@ -1,10 +1,12 @@
 #!/usr/bin/python3
-"""Start link class to table in database
+""" prints the State object with the name passed as argument from the database
 """
 import sys
-from model_state import Base, State
+from relationship_state import Base, State
+from relationship_city import City
 from sqlalchemy import (create_engine)
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import relationship
 
 
 if __name__ == "__main__":
@@ -13,5 +15,7 @@ if __name__ == "__main__":
     Base.metadata.create_all(engine)
     X = sessionmaker(bind=engine)
     x = X()
-    for instance in x.query(State).order_by(State.id):
-        print(instance.id, instance.name, sep=": ")
+    for a in x.query(State).order_by(State.id):
+        for c_a in a.cities:
+            print(c_a.id, c_a.name, sep=": ", end="")
+            print(" -> " + a.name)
